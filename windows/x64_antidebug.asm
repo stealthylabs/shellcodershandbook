@@ -1,8 +1,8 @@
 _TEXT SEGMENT
 
-PUBLIC check_ntglobal_flag
+PUBLIC x64_get_ntglobal_flag, x64_get_process_heap
 
-check_ntglobal_flag PROC
+x64_get_ntglobal_flag PROC
 
 push rbp ; save frame pointer
 mov rbp, rsp ; fix stack pointer
@@ -22,7 +22,19 @@ LABEL3:
 mov rsp, rbp ; restore stack pointer
 pop rbp ; restore frame pointer
 ret ; return to caller
-check_ntglobal_flag ENDP
+x64_get_ntglobal_flag ENDP
+
+
+x64_get_process_heap PROC
+push rbp
+mov rbp, rsp
+sub rsp, 8 * 2
+mov rax, gs:[60h]
+mov rax, [rax + 30h]
+mov rsp, rbp
+pop rbp
+ret
+x64_get_process_heap ENDP
 
 _TEXT ENDS
 
